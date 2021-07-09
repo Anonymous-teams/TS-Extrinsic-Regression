@@ -12,7 +12,7 @@ from utils.data_processor import uniform_scaling
 name = "RegressorTools"
 
 classical_ml_models = ["xgboost", "svr", "random_forest"]
-deep_learning_models = ["fcn", "resnet", "inception"]
+deep_learning_models = ["fcn", "resnet", "inception","mlp","lstm"]
 tsc_models = ["rocket"]
 linear_models = ["lr", "ridge"]
 all_models = classical_ml_models + deep_learning_models + tsc_models
@@ -71,6 +71,13 @@ def create_regressor(regressor_name, input_shape, output_directory, verbose=1, i
     if regressor_name == "rocket":
         from models import rocket
         return rocket.RocketRegressor(output_directory)
+        
+    if regressor_name == "mlp":
+        from models.deep_learning import MLP
+        return MLP.MLPRegressor(output_directory, input_shape[-1]*2, verbose)
+    if regressor_name == "lstm":
+        from models.deep_learning import LSTM
+        return LSTM.LSTMRegressor(output_directory, input_shape, verbose)
 
     # classical ML models
     if regressor_name == "xgboost":
